@@ -1,4 +1,5 @@
 const express = require('express')
+const hbs = require('hbs')
 
 const Models = require('./models/qanda')
 const Question = Models.Question
@@ -6,9 +7,17 @@ const Answer = Models.Answer
 
 const app = express();
 
+app.set("view engine", "hbs")
+
 app.get('/', (req, res) => {
-    res.send('hello world');
+    Question.find({})
+        .then(questions => {
+            res.render('index', { questions })
+        })
 });
+//question.find({}) grabs all of the ?documents? in the model
+//.then function
+//renders the index.hbs page, with questions object
 
 app.listen(3000, () => {
     console.log('the test worked');
